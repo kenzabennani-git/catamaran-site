@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+
+
+<!-- BANNIÈRE -->
+<section class="hero">
+
+    <video autoplay muted loop class="hero-video">
+        <source src="{{ url_for('static', filename='video/catamaran.mp4') }}" type="video/mp4">
+    </video>
+
+    <div class="hero-content">
+        <h2>Prochaine Course Internationale – Grand Prix Méditerranée 2026</h2>
+        <p>Venez vivre l’intensité des courses de catamarans les plus spectaculaires.</p>
+        <a href="/evenements" class="btn">En savoir plus</a>
+    </div>
+
+</section>
+
+<!-- SECTION À PROPOS -->
+<section class="about">
+    <h2>À Propos de HapyCat</h2>
+
+    <p class="about-text">
+        Depuis plus de 10 ans, HapyCat organise des promenades et courses de catamarans pour tous les niveaux. Que vous soyez un marin aguerri ou un débutant curieux, nos événements vous offrent une expérience unique en mer.
+
+        Nos catamarans se déclinent en deux catégories : les catamarans de loisir, parfaits pour les balades familiales avec jusqu'à 12 passagers, et les catamarans sportifs, conçus pour les courses avec des équipages de 1 à 6 navigateurs.
+    </p>
+</section>
+
+<section class="stats">
+
+    <div class="stats-container">
+
+        <div class="stat">
+            <i data-lucide="anchor"></i>
+            <h3>15+</h3>
+            <p>Catamarans</p>
+        </div>
+
+        <div class="stat">
+            <i data-lucide="users"></i>
+            <h3>200+</h3>
+            <p>Participants</p>
+        </div>
+
+        <div class="stat">
+            <i data-lucide="trophy"></i>
+            <h3>30+</h3>
+            <p>Courses / an</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SECTION ÉVÉNEMENTS -->
+<section class="home-events">
+
+    <h2 class="events-title">Événements à Venir</h2>
+    <p class="events-subtitle">
+        Découvrez nos prochaines courses et promenades en catamaran.
+    </p>
+
+    <div class="events-home-grid">
+
+        {% for e in evenements_a_venir %}
+        <div class="event-home-card">
+
+            <div class="event-img-container">
+                <img src="{{ url_for('static', filename='images/' ~ e.image) }}" alt="{{ e.nom }}">
+                <span class="event-tag">{{ e.type_evenement }}</span>
+            </div>
+
+            <div class="event-home-content">
+
+                <h3>{{ e.nom }}</h3>
+
+                <div class="event-meta">
+                    <span>
+                        <i class="fa-regular fa-calendar"></i>
+                        {{ e.date }}
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-location-dot"></i>
+                        {{ e.lieu }}
+                    </span>
+                </div>
+
+                <a href="/{{ e.slug }}" class="event-link">
+                    En savoir plus →
+                </a>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+
+    <div class="events-button">
+        <a href="/evenements" class="btn-events">
+            Voir tous les événements →
+        </a>
+    </div>
+
+</section>
+
+<!-- SECTION RÉSULTATS -->
+<section class="home-results">
+
+    <h2 class="results-title">Derniers Résultats</h2>
+    <p class="results-subtitle">
+        Les résultats récents de nos courses et événements.
+    </p>
+
+    <div class="results-list">
+
+        {% for r in derniers_resultats %}
+        <div class="result-item">
+
+            <div class="result-left">
+
+                <div class="result-icon">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+
+                <div>
+                    <h3>{{ r.nom_evenement }}</h3>
+
+                    {% if r.type_evenement|lower == "loisir" %}
+                        <p>Vainqueur : —</p>
+                    {% elif r.classement and r.classement|length > 0 %}
+                        <p>Vainqueur : {{ r.classement[0].equipe }}</p>
+                    {% else %}
+                        <p>Vainqueur : —</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div class="result-right">
+
+                <span class="result-time">
+                    <i class="fa-regular fa-clock"></i>
+                    {% if r.type_evenement|lower == "loisir" %}
+                        —
+                    {% elif r.classement and r.classement|length > 0 %}
+                        {{ r.classement[0].temps }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </span>
+
+                {% if r.type_evenement|lower == "loisir" %}
+                    <span class="result-type loisir">Loisir</span>
+                {% else %}
+                    <span class="result-type">Sportif</span>
+                {% endif %}
+
+                <span class="result-date">{{ r.date_evenement }}</span>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <a href="/resultats" class="results-link">
+        Tous les résultats →
+    </a>
+
+</section>
+
+{% endblock %}
+

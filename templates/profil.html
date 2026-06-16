@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+<section class="profile-page">
+    <h1>Mon profil</h1>
+
+    <div class="profile-card">
+        <p><strong>Prénom :</strong> {{ user.prenom }}</p>
+        <p><strong>Nom :</strong> {{ user.nom }}</p>
+        <p><strong>Email :</strong> {{ user.email }}</p>
+        <p><strong>Téléphone :</strong> {{ user.telephone }}</p>
+        <p><strong>Rôle :</strong> {{ user.role }}</p>
+        <p><strong>Membre depuis :</strong> {{ user.created_at }}</p>
+    </div>
+
+    {% if user.role != "admin" %}
+    <h2>Mes réservations</h2>
+
+    {% if reservations %}
+        {% for r in reservations %}
+        <div class="profile-card">
+            <p><strong>Événement :</strong> {{ r.evenement }}</p>
+            <p><strong>Places :</strong> {{ r.nombre_places }}</p>
+            <p><strong>Statut :</strong> {{ r.status }}</p>
+            <p><strong>Réservé le :</strong> {{ r.created_at }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucune réservation pour le moment.</p>
+    {% endif %}
+    {% endif %}
+</section>
+{% endblock %}

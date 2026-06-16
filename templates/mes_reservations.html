@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Mes réservations{% endblock %}
+
+{% block content %}
+<section class="profile-page">
+<h1>Mes réservations</h1>
+
+{% if reservations %}
+    {% for r in reservations %}
+
+    <div class="profile-card">
+
+        <p><strong>Événement :</strong> {{ r.evenement }}</p>
+        <p><strong>Places :</strong> {{ r.nombre_places }}</p>
+        <p><strong>Statut :</strong> {{ r.status }}</p>
+        <p><strong>Date :</strong> {{ r.created_at }}</p>
+
+        <a href="{{ url_for('user_delete_reservation', id_inscription=r.id_inscription) }}"
+           onclick="return confirm('Annuler cette réservation ?')">
+           Annuler ma réservation
+        </a>
+
+    </div>
+
+    {% endfor %}
+{% else %}
+<p>Aucune réservation.</p>
+{% endif %}
+
+</section>
+{% endblock %}

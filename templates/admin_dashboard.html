@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block content %}
+<section class="profile-page">
+    <h1>Dashboard Admin</h1>
+
+    <div class="profile-card">
+        <p><strong>Utilisateurs :</strong> {{ total_users }}</p>
+        <p><strong>Réservations :</strong> {{ total_reservations }}</p>
+    </div>
+
+    <h2>Mon profil admin</h2>
+    <div class="profile-card">
+        <p><strong>Prénom :</strong> {{ user.prenom }}</p>
+        <p><strong>Nom :</strong> {{ user.nom }}</p>
+        <p><strong>Email :</strong> {{ user.email }}</p>
+        <p><strong>Téléphone :</strong> {{ user.telephone }}</p>
+        <p><strong>Rôle :</strong> {{ user.role }}</p>
+        <p><strong>Membre depuis :</strong> {{ user.created_at }}</p>
+    </div>
+
+    <h2>Réservations récentes</h2>
+    {% for r in reservations %}
+    <div class="profile-card">
+        <p><strong>ID :</strong> {{ r.id_inscription }}</p>
+        <p><strong>Utilisateur ID :</strong> {{ r.user_id }}</p>
+        <p><strong>Nom :</strong> {{ r.prenom }} {{ r.nom }}</p>
+        <p><strong>Email :</strong> {{ r.email }}</p>
+        <p><strong>Événement :</strong> {{ r.evenement }}</p>
+        <p><strong>Places :</strong> {{ r.nombre_places }}</p>
+        <p><strong>Statut :</strong> {{ r.status }}</p>
+        <a href="{{ url_for('admin_delete_reservation', id_inscription=r.id_inscription) }}">Supprimer</a>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

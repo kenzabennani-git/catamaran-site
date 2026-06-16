@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}{{ evenement.nom }}{% endblock %}
+
+{% block content %}
+
+<!-- HERO EVENT -->
+
+<section class="event-hero calanque">
+
+    <a href="/evenements" class="back-link">← Retour aux événements</a>
+
+    <div class="event-hero-content">
+
+        <div class="event-tags">
+            <span class="badge future">À venir</span>
+            <span class="badge loisir">Loisir</span>
+        </div>
+
+        <h1>{{ evenement.nom }}</h1>
+
+        <div class="event-meta">
+            <span>📅 {{ evenement.date }}</span>
+            <span>📍 {{ evenement.lieu }}</span>
+            <span>💰 {{ evenement.prix }} €</span>
+            <span>👥 {{ evenement.places_prises }}/{{ evenement.places_total }} inscrits</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NAVIGATION -->
+
+<div class="event-tabs">
+    <button onclick="showTab(event, 'details')" class="tab active">Détails</button>
+    <button onclick="showTab(event, 'schedule')" class="tab">Horaires & Lieu</button>
+</div>
+
+
+<!-- DETAILS -->
+
+<section id="details" class="tab-content active">
+
+    <h2>À propos de l'événement</h2>
+
+    <p class="event-description">
+        Une sortie détente en catamaran le long des Calanques de Marseille. Accessible à tous, idéale pour découvrir la navigation en multicoque dans un cadre exceptionnel.
+    </p>
+
+    <div class="catamaran-card">
+
+        <h2>Catamaran utilisé pour cet événement</h2>
+
+        <div class="event-info-cards">
+
+            <div class="info-card">
+                <p>Nom</p>
+                <h3>{{ catamaran.nom }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Type</p>
+                <h3>{{ catamaran.type_catamaran }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Capacité passagers</p>
+                <h3>{{ catamaran.capacite }} personnes</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Vitesse</p>
+                <h3>{{ catamaran.vitesse_noeud }} nœuds</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Longueur</p>
+                <h3>{{ catamaran.longueur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Largeur</p>
+                <h3>{{ catamaran.largeur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Hauteur</p>
+                <h3>{{ catamaran.hauteur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Tirant d’eau</p>
+                <h3>{{ catamaran.tirant_eau }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Catégorie</p>
+                <h3>{{ catamaran.categorie_type_B }}</h3>
+            </div>
+
+        </div>
+
+        <div class="event-info-cards">
+
+            <div class="info-card">
+                <p>Voile loisir</p>
+                <h3>{{ catamaran.voile_loisir }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Coque rotomoulée</p>
+                <h3>{{ catamaran.coque_rotomoule }}</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- HORAIRES -->
+
+<section id="schedule" class="tab-content">
+
+    <h2>Programme de la journée</h2>
+
+    <ul class="schedule">
+
+        <li><strong>09:00</strong> Accueil et présentation</li>
+        <li><strong>10:00</strong> Départ de la balade</li>
+        <li><strong>12:30</strong> Pause baignade</li>
+        <li><strong>14:00</strong> Retour au port</li>
+
+    </ul>
+
+    <h2>Lieu</h2>
+
+    <p>Base Nautique du Prado, 13008 Marseille</p>
+
+    <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=5.3685%2C43.2648%2C5.3748%2C43.2685&layer=mapnik&marker=43.2667%2C5.3717"
+        width="100%"
+        height="350"
+        style="border-radius:10px;border:none;">
+    </iframe>
+
+</section>
+
+
+<script>
+function showTab(event, tab){
+
+    document.querySelectorAll(".tab-content").forEach(section=>{
+        section.classList.remove("active")
+    })
+
+    document.getElementById(tab).classList.add("active")
+
+    document.querySelectorAll(".tab").forEach(btn=>{
+        btn.classList.remove("active")
+    })
+
+    event.target.classList.add("active")
+}
+</script>
+
+{% endblock %}

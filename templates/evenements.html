@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}Événements{% endblock %}
+
+{% block content %}
+
+<section class="events-hero">
+
+    <h1>Événements</h1>
+    <p>Retrouvez tous nos événements à venir et passés.</p>
+
+</section>
+
+
+<section class="events-page">
+
+    <!-- FILTRES -->
+
+    <div class="events-filters">
+
+        <select id="typeFilter">
+            <option value="all">Type : Tous</option>
+            <option value="sportif">Sportif</option>
+            <option value="loisir">Loisir</option>
+        </select>
+
+        <select id="lieuFilter">
+            <option value="all">Lieu : Tous</option>
+            <option value="marseille">Marseille</option>
+            <option value="larochelle">La Rochelle</option>
+            <option value="nice">Nice</option>
+            <option value="vannes">Vannes</option>
+        </select>
+
+        <select id="dateFilter">
+            <option value="all">Date : Tous</option>
+            <option value="recent">Plus récent</option>
+            <option value="ancien">Plus ancien</option>
+        </select>
+
+    </div>
+
+
+    <!-- GRID EVENTS -->
+
+    <div class="events-list">
+
+        {% for e in passes + a_venir %}
+        <div class="event-row"
+             data-type="{{ e.type_evenement|lower }}"
+             data-lieu="{{ e.lieu|lower|replace(' ', '') }}"
+             data-date="{{ e.date }}">
+
+            <img src="{{ url_for('static', filename='images/' ~ e.image) }}" alt="{{ e.nom }}">
+
+            <div class="event-info">
+
+                <div class="event-badges">
+                    {% if e.statut == "passe" %}
+                        <span class="badge past">Passé</span>
+                    {% else %}
+                        <span class="badge future">À venir</span>
+                    {% endif %}
+
+                    {% if e.type_evenement|lower == "loisir" %}
+                        <span class="badge leisure">Loisir</span>
+                    {% else %}
+                        <span class="badge sport">Sportif</span>
+                    {% endif %}
+                </div>
+
+                <h3>{{ e.nom }}</h3>
+
+                <div class="event-meta">
+                    <span><i class="fa-regular fa-calendar"></i> {{ e.date }}</span>
+                    <span><i class="fa-solid fa-location-dot"></i> {{ e.lieu }}</span>
+                </div>
+
+                <a href="/{{ e.slug }}">Détails →</a>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+const typeFilter = document.getElementById("typeFilter");
+const lieuFilter = document.getElementById("lieuFilter");
+const dateFilter = document.getElementById("dateFilter");
+const eventsContainer = document.querySelector(".events-list");
+
+function getEvents() {
+    return Array.from(document.querySelectorAll(".event-row"));
+}
+
+function filterEvents() {
+    const type = typeFilter.value;
+    const lieu = lieuFilter.value;
+
+    getEvents().forEach(event => {
+        const eventType = event.dataset.type;
+        const eventLieu = event.dataset.lieu;
+
+        let show = true;
+
+        if (type !== "all" && eventType !== type) {
+            show = false;
+        }
+
+        if (lieu !== "all" && eventLieu !== lieu) {
+            show = false;
+        }
+
+        event.style.display = show ? "flex" : "none";
+    });
+}
+
+function sortEvents() {
+    const order = dateFilter.value;
+    const events = getEvents();
+
+    events.sort((a, b) => {
+        const dateA = new Date(a.dataset.date);
+        const dateB = new Date(b.dataset.date);
+
+        if (order === "recent") {
+            return dateB - dateA;
+        }
+
+        if (order === "ancien") {
+            return dateA - dateB;
+        }
+
+        return 0;
+    });
+
+    events.forEach(event => {
+        eventsContainer.appendChild(event);
+    });
+
+    filterEvents();
+}
+
+typeFilter.addEventListener("change", filterEvents);
+lieuFilter.addEventListener("change", filterEvents);
+dateFilter.addEventListener("change", sortEvents);
+
+</script>
+
+{% endblock %}

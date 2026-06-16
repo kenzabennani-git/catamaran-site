@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block title %}{{ evenement.nom }}{% endblock %}
+
+{% block content %}
+
+<!-- HERO EVENT -->
+
+<section class="event-hero coteazur">
+
+    <a href="/evenements" class="back-link">← Retour aux événements</a>
+
+    <div class="event-hero-content">
+
+        <div class="event-tags">
+            <span class="badge future">À venir</span>
+            <span class="badge sport">Sportif</span>
+        </div>
+
+        <h1>{{ evenement.nom }}</h1>
+
+        <div class="event-meta">
+            <span>📅 {{ evenement.date }}</span>
+            <span>📍 {{ evenement.lieu }}</span>
+            <span>💰 {{ evenement.prix }} €</span>
+            <span>👥 {{ evenement.places_prises }}/{{ evenement.places_total }} inscrits</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NAVIGATION -->
+
+<div class="event-tabs">
+    <button onclick="showTab(event, 'details')" class="tab active">Détails</button>
+    <button onclick="showTab(event, 'schedule')" class="tab">Horaires & Lieu</button>
+    <button onclick="showTab(event, 'inscription')" class="tab">Inscription</button>
+
+</div>
+
+
+<!-- DETAILS -->
+
+<section id="details" class="tab-content active">
+
+    <h2>À propos de l'événement</h2>
+
+    <p class="event-description">
+        Clôturez la saison en beauté sur la Baie des Anges ! Le Trophée Côte d'Azur combine
+        régate sportive et ambiance festive dans le cadre somptueux de la Riviera française.
+    </p>
+
+    <div class="catamaran-card">
+
+        <h2>Catamaran utilisé pour cet événement</h2>
+
+        <div class="event-info-cards">
+
+            <div class="info-card">
+                <p>Nom</p>
+                <h3>{{ catamaran.nom }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Type</p>
+                <h3>{{ catamaran.type_catamaran }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Capacité équipage</p>
+                <h3>{{ catamaran.capacite }} navigateurs</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Vitesse</p>
+                <h3>{{ catamaran.vitesse_noeud }} nœuds</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Longueur</p>
+                <h3>{{ catamaran.longueur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Largeur</p>
+                <h3>{{ catamaran.largeur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Hauteur</p>
+                <h3>{{ catamaran.hauteur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Tirant d’eau</p>
+                <h3>{{ catamaran.tirant_eau }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Catégorie</p>
+                <h3>{{ catamaran.categorie_type_B }}</h3>
+            </div>
+
+        </div>
+
+        <div class="event-info-cards">
+
+            <div class="info-card">
+                <p>Foc</p>
+                <h3>{{ catamaran.foc }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Dérives pivotantes</p>
+                <h3>{{ catamaran.derives_pivotantes }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Grande voile</p>
+                <h3>{{ catamaran.grande_voile }}</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- HORAIRES -->
+
+<section id="schedule" class="tab-content">
+
+    <h2>Programme de la journée</h2>
+
+    <ul class="schedule">
+        <li><strong>08:00</strong> Ouverture du village nautique</li>
+        <li><strong>09:00</strong> Briefing et stratégie</li>
+        <li><strong>10:30</strong> Départ — Manche 1</li>
+        <li><strong>12:00</strong> Manche 2</li>
+        <li><strong>13:30</strong> Déjeuner offert</li>
+        <li><strong>15:00</strong> Manche finale</li>
+        <li><strong>17:00</strong> Cérémonie de clôture et trophées</li>
+    </ul>
+
+    <h2>Lieu</h2>
+
+    <p>Quai des États-Unis, Port de Nice, 06300 Nice</p>
+
+    <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=7.2685%2C43.6935%2C7.2738%2C43.6972&layer=mapnik&marker=43.695325%2C7.271147"
+        width="100%"
+        height="350"
+        style="border-radius:10px;border:none;">
+    </iframe>
+
+</section>
+
+
+<!-- INSCRIPTION -->
+
+<section id="inscription" class="tab-content">
+
+    <h2>S'inscrire</h2>
+
+    <p>{{ evenement.places_total - evenement.places_prises }} places restantes sur {{ evenement.places_total }}.</p>
+
+    <form class="inscription-form" method="POST">
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>Prénom *</label>
+                <input type="text" name="prenom" placeholder="Jean" required>
+            </div>
+
+            <div class="form-group">
+                <label>Nom *</label>
+                <input type="text" name="nom" placeholder="Dupont" required>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>Email *</label>
+            <input type="email" name="email" placeholder="jean.dupont@email.com" required>
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>Téléphone</label>
+                <input type="text" name="telephone" placeholder="06 12 34 56 78">
+            </div>
+
+            <div class="form-group">
+                <label>Nombre de participants *</label>
+                <input type="number" name="places" min="1" max="6" value="1" required>
+            </div>
+
+        </div>
+
+        <button class="btn-inscription">Confirmer l'inscription</button>
+
+    </form>
+
+</section>
+
+
+<script>
+function showTab(event, tab){
+
+    document.querySelectorAll(".tab-content").forEach(section=>{
+        section.classList.remove("active")
+    })
+
+    document.getElementById(tab).classList.add("active")
+
+    document.querySelectorAll(".tab").forEach(btn=>{
+        btn.classList.remove("active")
+    })
+
+    event.target.classList.add("active")
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}HapyCat{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Catamaran" class="logo-img">
+            <h1>Promenades en Catamaran</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/evenements">Événements</a></li>
+                <li><a href="/resultats">Résultats</a></li>
+                <li><a href="/infos_pratiques">Infos Pratiques</a></li>
+                <li><a href="/contact">Contact</a></li>
+
+                {% if session.get("user_id") %}
+                    {% if session.get("user_role") == "admin" %}
+                        <li><a href="/admin/dashboard">Admin</a></li>
+                    {% else %}
+                        <li><a href="/profil">Profil</a></li>
+                    {% endif %}
+
+                    <li><a href="/logout">Déconnexion</a></li>
+                {% else %}
+                    <li><a href="/login">Connexion</a></li>
+                    <li><a href="/register">Inscription</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <!-- MESSAGES FLASH -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="toast-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <!-- CONTENU DES PAGES -->
+
+    {% block content %}{% endblock %}
+
+
+    <!-- FOOTER -->
+
+    <footer class="site-footer">
+
+        <div class="footer-container">
+
+            <!-- COLONNE 1 -->
+
+            <div class="footer-col">
+
+                <h3 class="footer-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+                    HapyCat
+                </h3>
+
+                <p>
+                    Vivez l'aventure du catamaran.<br>
+                    Courses, promenades et événements<br>
+                    sur les plus beaux plans d'eau.
+                </p>
+
+            </div>
+
+
+            <!-- COLONNE 2 -->
+
+            <div class="footer-col">
+
+                <h4>Navigation</h4>
+
+                <ul>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/evenements">Événements</a></li>
+                    <li><a href="/resultats">Résultats</a></li>
+                    <li><a href="/infos_pratiques">Infos Pratiques</a></li>
+                    <li><a href="/contact">Contact</a></li>
+
+                    {% if session.get("user_id") %}
+                        {% if session.get("user_role") == "admin" %}
+                            <li><a href="/admin/dashboard">Admin</a></li>
+                        {% else %}
+                            <li><a href="/profil">Profil</a></li>
+                        {% endif %}
+
+                        <li><a href="/logout">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="/login">Connexion</a></li>
+                        <li><a href="/register">Inscription</a></li>
+                    {% endif %}
+                </ul>
+
+            </div>
+
+
+            <!-- COLONNE 3 -->
+
+            <div class="footer-col">
+
+                <h4>Contact</h4>
+
+                <p>
+                    Port de plaisance<br>
+                    33000 Bordeaux, France
+                </p>
+
+                <p>contact@hapycat.fr</p>
+                <p>+33 5 56 00 00 00</p>
+
+            </div>
+
+
+            <!-- COLONNE 4 -->
+
+            <div class="footer-col">
+
+                <h4>Newsletter</h4>
+
+                <p>Recevez les dernières infos sur nos événements.</p>
+
+                <form action="/newsletter" method="POST" class="newsletter">
+                    <input type="email" name="email" placeholder="Votre email" required>
+                    <button type="submit">OK</button>
+                </form>
+
+            </div>
+
+
+            <!-- RÉSEAUX SOCIAUX -->
+
+            <div class="footer-social">
+
+                <a href="https://www.facebook.com" target="_blank">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <a href="https://www.instagram.com" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a href="https://twitter.com" target="_blank">
+                    <i class="fa-brands fa-twitter"></i>
+                </a>
+
+                <a href="mailto:contact@hapycat.fr">
+                    <i class="fa-regular fa-envelope"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 HapyCat — Promenades en Catamaran. Tous droits réservés.
+        </div>
+
+    </footer>
+
+
+    <!-- SCRIPT DISPARITION MESSAGE -->
+
+    <script>
+    setTimeout(function () {
+        let toast = document.querySelector(".toast-message");
+
+        if (toast) {
+            toast.style.opacity = "0";
+            setTimeout(() => toast.remove(), 500);
+        }
+    }, 3000);
+    </script>
+
+
+    <!-- LUCIDE ICONS -->
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+    lucide.createIcons();
+    </script>
+
+</body>
+</html>

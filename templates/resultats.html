@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Résultats{% endblock %}
+
+{% block content %}
+
+<section class="results-hero">
+
+    <h1>Résultats</h1>
+    <p>Classements et résultats de nos courses.</p>
+
+</section>
+
+<!-- FILTRE -->
+
+<section class="results-filter">
+
+    <div class="filter-container">
+
+        <div class="filter-label">
+            <i class="fa-solid fa-filter"></i>
+            <span>Filtrer</span>
+        </div>
+
+        <select id="eventFilter" class="filter-select">
+            <option value="all">Tous les événements</option>
+            {% for r in resultats %}
+                <option value="{{ r.slug_evenement }}">{{ r.nom_evenement }}</option>
+            {% endfor %}
+        </select>
+
+        <select id="typeFilter" class="filter-select">
+            <option value="all">Tous les types</option>
+            <option value="sportif">Sportif</option>
+            <option value="loisir">Loisir</option>
+        </select>
+
+    </div>
+
+</section>
+
+
+<section class="results-page">
+
+    {% for r in resultats %}
+    <div class="result-card"
+         data-event="{{ r.slug_evenement }}"
+         data-type="{{ r.type_evenement|lower }}">
+
+        <div class="result-header">
+            <div>
+                <h3>{{ r.nom_evenement }}</h3>
+                <p class="result-date">{{ r.date_evenement }}</p>
+            </div>
+
+            {% if r.type_evenement|lower == "loisir" %}
+                <span class="badge leisure">Loisir</span>
+            {% else %}
+                <span class="badge sport">Sportif</span>
+            {% endif %}
+        </div>
+
+        {% if r.type_evenement|lower == "loisir" %}
+            <p class="no-result">
+                Événement loisir — pas de classement
+            </p>
+        {% else %}
+            {% for c in r.classement %}
+                {% if c.rang == 1 %}
+                    <div class="result-row gold">
+                        <span class="team">🥇 {{ c.equipe }}</span>
+                        <span class="time">⏱ {{ c.temps }}</span>
+                    </div>
+                {% elif c.rang == 2 %}
+                    <div class="result-row silver">
+                        <span class="team">🥈 {{ c.equipe }}</span>
+                        <span class="time">⏱ {{ c.temps }}</span>
+                    </div>
+                {% elif c.rang == 3 %}
+                    <div class="result-row bronze">
+                        <span class="team">🥉 {{ c.equipe }}</span>
+                        <span class="time">⏱ {{ c.temps }}</span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    </div>
+    {% endfor %}
+
+</section>
+
+
+<script>
+
+const eventFilter = document.getElementById("eventFilter");
+const typeFilter = document.getElementById("typeFilter");
+
+function getCards() {
+    return document.querySelectorAll(".result-card");
+}
+
+function filterResults() {
+    const selectedEvent = eventFilter.value;
+    const selectedType = typeFilter.value;
+
+    getCards().forEach(card => {
+        const cardEvent = card.dataset.event;
+        const cardType = card.dataset.type;
+
+        const matchEvent = selectedEvent === "all" || cardEvent === selectedEvent;
+        const matchType = selectedType === "all" || cardType === selectedType;
+
+        card.style.display = (matchEvent && matchType) ? "block" : "none";
+    });
+}
+
+eventFilter.addEventListener("change", filterResults);
+typeFilter.addEventListener("change", filterResults);
+
+</script>
+
+{% endblock %}

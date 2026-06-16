@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="contact-hero">
+    <div class="container">
+        <h1 class="contact-title">Contact</h1>
+        <p class="contact-subtitle">
+            Une question ? N'hésitez pas à nous contacter.
+        </p>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-wrapper">
+
+    <div class="contact-grid">
+
+        <!-- LEFT SIDE -->
+        <div class="contact-info">
+
+            <h2>Nos coordonnées</h2>
+
+            <div class="info-item">
+                <div class="icon-box">
+                    <i data-lucide="map-pin"></i>
+                </div>
+                <div>
+                    <p class="info-title">Adresse</p>
+                    <p class="info-text">
+                        Port de plaisance<br>
+                        33000 Bordeaux
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="icon-box">
+                    <i data-lucide="mail"></i>
+                </div>
+                <div>
+                    <p class="info-title">Email</p>
+                    <p class="info-text">contact@happycat.fr</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="icon-box">
+                    <i data-lucide="phone"></i>
+                </div>
+                <div>
+                    <p class="info-title">Téléphone</p>
+                    <p class="info-text">+33 5 56 00 00 00</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE FORM -->
+        <div>
+
+
+
+
+
+            
+            <form class="contact-form" method="POST">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <input type="text" name="nom" placeholder="Votre nom" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="votre@email.fr" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Sujet</label>
+                    <input type="text" name="sujet" placeholder="Sujet de votre message" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Vérification : {{ a }} + {{ b }} = ?</label>
+                    <input type="number" name="captcha" placeholder="Votre réponse" required>
+                </div>
+
+                <button type="submit" class="contact-btn">
+                    <i data-lucide="send"></i>
+                    Envoyer le message
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- LUCIDE ICONS -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+{% endblock %}

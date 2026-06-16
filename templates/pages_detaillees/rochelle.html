@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}{{ evenement.nom }}{% endblock %}
+
+{% block content %}
+
+<!-- HERO EVENT -->
+
+<section class="event-hero rochelle">
+
+    <a href="/evenements" class="back-link">← Retour aux événements</a>
+
+    <div class="event-hero-content">
+
+        <div class="event-tags">
+            <span class="badge future">À venir</span>
+            <span class="badge sport">Sportif</span>
+        </div>
+
+        <h1>{{ evenement.nom }}</h1>
+
+        <div class="event-meta">
+            <span>📅 {{ evenement.date }}</span>
+            <span>📍 {{ evenement.lieu }}</span>
+            <span>💰 {{ evenement.prix }} €</span>
+            <span>👥 {{ evenement.places_prises }}/{{ evenement.places_total }} inscrits</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NAVIGATION -->
+
+<div class="event-tabs">
+    <button onclick="showTab(event, 'details')" class="tab active">Détails</button>
+    <button onclick="showTab(event, 'schedule')" class="tab">Horaires & Lieu</button>
+</div>
+
+
+<!-- DETAILS -->
+
+<section id="details" class="tab-content active">
+
+    <h2>À propos de l'événement</h2>
+
+    <p class="event-description">
+        La Régate de La Rochelle a rassemblé 35 équipages pour une journée de courses intense dans le pertuis d'Antioche. Conditions météo idéales avec 15-20 nœuds de vent.
+    </p>
+
+    <div class="catamaran-card">
+
+        <h2>Catamaran utilisé pour cet événement</h2>
+
+        <div class="event-info-cards">
+
+            <div class="info-card">
+                <p>Nom</p>
+                <h3>{{ catamaran.nom }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Type</p>
+                <h3>{{ catamaran.type_catamaran }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Capacité équipage</p>
+                <h3>{{ catamaran.capacite }} navigateurs</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Vitesse</p>
+                <h3>{{ catamaran.vitesse_noeud }} nœuds</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Longueur</p>
+                <h3>{{ catamaran.longueur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Largeur</p>
+                <h3>{{ catamaran.largeur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Hauteur</p>
+                <h3>{{ catamaran.hauteur }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Tirant d’eau</p>
+                <h3>{{ catamaran.tirant_eau }} m</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Catégorie</p>
+                <h3>{{ catamaran.categorie_type_B }}</h3>
+            </div>
+
+        </div>
+
+        <div class="event-info-cards">
+
+            <div class="info-card">
+                <p>Foc</p>
+                <h3>{{ catamaran.foc }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Dérives pivotantes</p>
+                <h3>{{ catamaran.derives_pivotantes }}</h3>
+            </div>
+
+            <div class="info-card">
+                <p>Grande voile</p>
+                <h3>{{ catamaran.grande_voile }}</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- HORAIRES -->
+
+<section id="schedule" class="tab-content">
+
+    <h2>Programme de la journée</h2>
+
+    <ul class="schedule">
+
+        <li><strong>08:00</strong> Accueil des participants</li>
+        <li><strong>09:30</strong> Départ de la course</li>
+        <li><strong>15:00</strong> Arrivées</li>
+        <li><strong>16:30</strong> Remise des prix</li>
+
+    </ul>
+
+    <h2>Lieu</h2>
+
+    <p>Port des Minimes, 17000 La Rochelle</p>
+
+    <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-1.1705%2C46.1430%2C-1.1585%2C46.1495&layer=mapnik&marker=46.1467%2C-1.1645"
+        width="100%"
+        height="350"
+        style="border-radius:10px;border:none;">
+    </iframe>
+
+</section>
+
+
+<script>
+function showTab(event, tab){
+
+    document.querySelectorAll(".tab-content").forEach(section=>{
+        section.classList.remove("active")
+    })
+
+    document.getElementById(tab).classList.add("active")
+
+    document.querySelectorAll(".tab").forEach(btn=>{
+        btn.classList.remove("active")
+    })
+
+    event.target.classList.add("active")
+}
+</script>
+
+{% endblock %}
